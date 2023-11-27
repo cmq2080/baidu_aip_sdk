@@ -1,10 +1,11 @@
 <?php
 
-namespace app\face;
+namespace cmq2080\baidu_aip\app\face;
 
-use cmq2080\baidu_aip\app\DriverLoader;
+use cmq2080\baidu_aip\app\Driver;
+use cmq2080\baidu_aip\app\DriverGetter;
 
-class AipFace extends DriverLoader
+class AipFace extends DriverGetter
 {
     // quality_control
     const QUALITY_CONTROL_NONE   = 'NONE';
@@ -33,4 +34,9 @@ class AipFace extends DriverLoader
     const FACE_TYPE_IDCARD = 'IDCARD';
     const FACE_TYPE_WATERMARK = 'WATERMARK';
     const FACE_TYPE_CERT = 'CERT';
+
+    public static function getDriver($appClassName, $version = 'v3'): Driver
+    {
+        return parent::getDriver($appClassName, $version);
+    }
 }
