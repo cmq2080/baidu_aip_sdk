@@ -7,17 +7,17 @@ use cmq2080\baidu_aip\traits\TData;
 use cmq2080\curl_spear\Client;
 use cmq2080\curl_spear\lib\Request;
 
-class AipHandler
+class BaiduAip
 {
     use TData;
 
     protected static $instance;
 
-    protected IDriver $bullet;
+    protected IDriver $driver;
 
     protected $queryParamKeys;
 
-    public static function instance($newInstance = false): AipHandler
+    public static function instance($newInstance = false): BaiduAip
     {
         if ($newInstance) {
             return new static();
@@ -37,10 +37,10 @@ class AipHandler
         $this->queryParamKeys = ['access_token'];
     }
 
-    public function load(IDriver $bullet): AipHandler
+    public function load(IDriver $driver): BaiduAip
     {
         // 鉴权验证有白名单
-        if ($bullet instanceof \cmq2080\baidu_aip\app\OAuth) {
+        if ($driver instanceof \cmq2080\baidu_aip\app\OAuth) {
             $this->allowedKeys = [];
             $this->requiredKeys = [];
             $this->queryParamKeys = ['grant_type', 'client_id', 'client_secret'];
@@ -50,15 +50,15 @@ class AipHandler
             $this->queryParamKeys = ['access_token'];
         }
 
-        $this->bullet = $bullet;
+        $this->driver = $driver;
         return $this;
     }
 
-    public function shoot()
+    public function run()
     {
         $data = $this->getData();
-        $bulletData = $this->bullet->getData();
-        $data = array_merge($data, $bulletData);
+        $driverData = $this->driver->getData();
+        $data = array_merge($data, $driverData);
 
         $queryParams = $postData = [];
         foreach ($data as $key => $value) {
@@ -70,7 +70,7 @@ class AipHandler
             }
         }
 
-        $requestUrl = $this->bullet->getRequestUrl();
+        $requestUrl = $this->driver->getRequestUrl();
         if ($queryParams) {
             $queryStr = http_build_query($queryParams);
             $requestUrl .= strpos($requestUrl, '?') === false ? '?' : '&';
@@ -79,7 +79,7 @@ class AipHandler
 
         $client = Client::instance();
         $client->setRequest((new Request()));
-        $client->withJson()->post($requestUrl);
+        $client->withJson()->post($requestUrl, $postData);
         $response = $client->getResponse();
 
         if (!$response->isSuccess()) {

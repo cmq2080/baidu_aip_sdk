@@ -18,7 +18,7 @@ trait TData
                 $v .= "";
                 $this->setData($k, $v);
             }
-            return;
+            return $this;
         }
 
         if (!in_array($key, $this->allowedKeys)) {
@@ -28,6 +28,8 @@ trait TData
             throw new \Exception('Value Invalid: ' . $key . ' - ' . $value);
         }
         $this->data[$key] = $value;
+
+        return $this;
     }
 
     public function getData($key = null, $default = null)
