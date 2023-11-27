@@ -1,0 +1,24 @@
+{
+    "name": "cmq2080/baidu_aip_sdk",
+    "description": "Software Development KIt for Baidu AI Platform",
+    "type": "library",
+    "keywords": [
+        "thinkphp",
+        "toolkit"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "cmq2080",
+            "email": "1421224516@qq.com"
+        }
+    ],
+    "require": {
+        "cmq2080/curl_spear": "^1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "cmq2080\\baidu_aip\\": "src/"
+        }
+    }
+}
