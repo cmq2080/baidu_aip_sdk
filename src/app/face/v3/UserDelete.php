@@ -8,8 +8,8 @@ class UserDelete extends Driver
 {
     public function __construct()
     {
-        $this->allowedKeys = ['group_id', 'user_id', 'face_token'];
-        $this->requiredKeys = ['group_id', 'user_id', 'face_token'];
+        $this->allowedKeys = ['log_id', 'group_id', 'user_id', 'face_token'];
+        $this->requiredKeys = ['log_id', 'group_id', 'user_id', 'face_token'];
     }
 
     public function getRequestUrl(): string
